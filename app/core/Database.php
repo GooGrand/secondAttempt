@@ -1,18 +1,30 @@
 <?php
 
-
-class Database
+    $configSet = require 'config.php';
+    Database::connect($configSet['host'], $configSet['dbName'], $configSet['user'], $configSet['pass']);
+    class Database
 {
-    public $connection;
+    private static $connection;
 
-    public function getConnection()
+    public static function connect($host, $database, $user, $password)
     {
-        return $connection = DbConnection::getInstance()->getConnection();
+        if (empty(self::$connection)) {
+
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ];
+
+            $db = new PDO("mysql:host=$host;dbname=$database", $user, $password, $options);
+            self::$connection= $db;
+        }
+
+        return self::$connection;
     }
 
     public static function queryOne($query, $params = array())
     {
-        $result = Database::getConnection()->prepare($query);
+        $result = self::$connection->prepare($query);
         $result->execute($params);
         return $result->fetch();
     }

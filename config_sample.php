@@ -1,6 +1,9 @@
 <?php
 
-$host = "";
-$dbName = "";
-$user = "";
-$pass = "";
+return[
+    "host" => "",
+    "dbName" => "",
+    "charset" => "",
+    "user" => "",
+    "pass" => "",
+];

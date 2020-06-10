@@ -3,7 +3,5 @@
 
 class Model
 {
-    public function index()
-    {
-    }
+
 }
