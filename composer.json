@@ -1,0 +1,20 @@
+{
+    "autoload": {
+        "classmap": [
+            "app/controllers",
+            "app/core",
+            "app/models",
+            "app/views"
+        ],
+        "psr-4": {
+            "Core\\": "app/core",
+            "Models\\": "app/models",
+            "Controllers\\": "app/controllers",
+            "Views\\": "app/views"
+        },
+        "files": [
+            "config.php",
+            "app/core/routes.php"
+        ]
+    }
+}
