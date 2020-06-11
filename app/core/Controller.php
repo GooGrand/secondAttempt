@@ -5,6 +5,7 @@ class Controller
 {
     public $model;
     public $view;
+    public $data;
 
     function __construct()
     {

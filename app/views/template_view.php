@@ -18,6 +18,12 @@
         <li><a href="/">Home</a></li>
         <li><a href="user/signup">Sign up</a></li>
         <li><a href="user">Login</a></li>
+        <li><a href="user/logout">Logout</a></li>
+        <?php if (isset($_SESSION['user'])): ?>
+            <?php if ($_SESSION['user']['admin'] == 1): ?>
+        <li><a href="admin">Administration</a></li>
+            <?php endif; ?>
+        <?php endif; ?>
     </ul>
 </nav>
 <br clear="both" />

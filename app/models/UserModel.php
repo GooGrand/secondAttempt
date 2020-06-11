@@ -38,6 +38,8 @@ class UserModel extends Model
 
     public function register($name, $surname, $email, $birthday, $password, $passwordRepeat)
     {
+        $this->logout();
+
         if ($password === $passwordRepeat)
         $user = array(
             'name' => $name,
@@ -58,23 +60,30 @@ class UserModel extends Model
     public function login($email, $password)
     {
         $user = self::queryOne('
-            SELECT user_id, email, name, admin, password
-            FROM users 
-            WHERE email = ?
+            SELECT `user_id`, `email`, `name`, `admin`, `password`
+            FROM `users` 
+            WHERE `email` = ?
         ', array($email));
         if (!$email || !password_verify($password, $user['password']))
-            throw
+            echo 'Wrong password or email';
+        else
         $_SESSION['user'] = $user;
     }
 
-    public function logoff()
+    public function logout()
     {
         unset($_SESSION['user']);
     }
     public function getUser()
     {
         if (isset($_SESSION['user']))
+        {
+            echo $_SESSION['user'];
             return $_SESSION['user'];
-        return null;
+        }
+        else
+        {
+            return null;
+        }
     }
 }
