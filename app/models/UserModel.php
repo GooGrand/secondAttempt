@@ -8,7 +8,7 @@ class UserModel extends Model
     // Returns a list of all of the articles in the database
     public function getUsers()
     {
-        return Database::queryAll('
+        return self::queryOne('
                         SELECT `user_id`, `name`, `surname`, `email`, `birthday`
                         FROM `users`
                         ORDER BY `user_id` DESC
@@ -18,14 +18,14 @@ class UserModel extends Model
     public function saveUser($id, $user)
     {
         if (!$id)
-            Database::insert('users', $user);
+            self::insert('users', $user);
         else
-            Database::update('users', $user, 'WHERE user_id = ?', array($id));
+            self::update('users', $user, 'WHERE user_id = ?', array($id));
     }
 
     public function removeUser($user_id)
     {
-        Database::query('
+        self::query('
                 DELETE FROM users
                 WHERE user_id = ?
         ', array($user_id));
@@ -47,7 +47,7 @@ class UserModel extends Model
             'password' => $this->computeHash($password),
         );
         try {
-            Database::insert('users', $user);
+            self::insert('users', $user);
         }
         catch (PDOException $ex)
         {
@@ -57,7 +57,7 @@ class UserModel extends Model
 
     public function login($email, $password)
     {
-        $user = Database::queryOne('
+        $user = self::queryOne('
             SELECT user_id, email, name, admin, password
             FROM users 
             WHERE email = ?

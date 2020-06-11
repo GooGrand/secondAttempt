@@ -9,8 +9,9 @@ class AdminController extends Controller
         $per_page = 2;
         $cur_page = $this->getCurPage();
         $num_pages = $this->getRows($per_page);
+        $users = $this->getPage($per_page);
 
-        $this->view->generate('admin_view.php', 'template_view.php', $cur_page, $num_pages, $page);
+        $this->view->generate('admin_view.php', 'template_view.php', $cur_page, $num_pages, $page, $users);
     }
 
     public function logout()
@@ -26,13 +27,13 @@ class AdminController extends Controller
         return $cur_page;
     }
 
-    public function getPage()
+    public function getPage($per_page)
     {
         $db = new Database();
         $cur_page = $this->getCurPage();
-        $start = ($cur_page - 1) * $this->per_page;
-        $sql  = "SELECT SQL_CALC_FOUND_ROWS * FROM `users` LIMIT ?i, ?i";
-        return $data = $db->queryAll($sql, $start, $this->per_page);
+        $start = ($cur_page - 1) * $per_page;
+        $sql  = "SELECT SQL_CALC_FOUND_ROWS * FROM `users` LIMIT ?, OFFSET ?";
+        return $data = $db->queryAll($sql, array($start, $per_page));
     }
     public function getRows($per_page)
     {
