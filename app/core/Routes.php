@@ -53,7 +53,7 @@ class Routes
         if(method_exists($controller, $action))
         {
             // вызываем действие контроллера
-            $controller->$action();
+            $controller->$action($params = '');
         }
         else
         {
@@ -68,7 +68,7 @@ class Routes
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');
         header("Status: 404 Not Found");
-        header('Location:'.$host.'404');
+        header('Location:/404');
     }
 
 

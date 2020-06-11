@@ -74,7 +74,7 @@ class UserModel extends Model
     {
         unset($_SESSION['user']);
     }
-    public function getUser()
+    public function loggedUser()
     {
         if (isset($_SESSION['user']))
         {

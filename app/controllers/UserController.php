@@ -6,7 +6,7 @@ class UserController extends Controller
     function index()
     {
         $userModel = new UserModel();
-        if ($userModel->getUser() != null)
+        if ($userModel->loggedUser() != null)
             header('Location:/main/');
 
        if(isset($_POST['email']) && isset($_POST['password']))
@@ -56,7 +56,7 @@ class UserController extends Controller
     public function logout()
     {
         $userModel = new UserModel();
-        if ($userModel->getUser() == null)
+        if ($userModel->loggedUser() == null)
             header('Location:/main/');
 
         $model = new UserModel();

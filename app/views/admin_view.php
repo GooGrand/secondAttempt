@@ -1,5 +1,5 @@
-<p>Welcome to the Home, you are logged in as <?= $name ?></p>
-
+<p>Welcome to the Administration, you are logged in as <?= $_SESSION['user']['name']?></p>
+<?php extract($data); ?>
 <h1>Users list</h1>
 <table>
     <?php foreach ($users as $user) : ?>
@@ -7,11 +7,9 @@
             <td>
                 <h2><?= $user['name'] ?></h2>
                 <?= $user['email'] ?>
-                <?php if ($admin) : ?>
                     <br />
-                    <a href="editor/<?= $user['user_id'] ?>">Edit</a>
-                    <a href="users/<?= $user['user_id'] ?>/remove">Remove</a>
-                <?php endif ?>
+                    <a href="admin/edit/<?= $user['user_id']?>"> Edit</a>
+                    <a href="admin/remove/<?= $user['user_id'] ?>">Remove</a>
             </td>
         </tr>
     <?php endforeach ?>
@@ -29,6 +27,3 @@
         <a href="?page=<?=$page?>"><?=$page?></a>
     <? endif ?>
 <? endwhile ?>
-
-
-<h2><a href="admin/logout">Logout</a></h2>

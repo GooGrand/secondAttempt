@@ -4,6 +4,12 @@
 class Model
 {
     private static $connection;
+
+    protected $conn;
+    protected $stats;
+    protected $emode;
+    protected $exname;
+
     function __construct()
     {
         $configSet = require 'config.php';
@@ -52,4 +58,14 @@ class Model
             "` = ? " . $condition,
             array_merge(array_values($values), $params));
     }
+    public function getUser($user_id)
+    {
+        return Db::queryOne('
+                        SELECT `user_id`, `name`, `surname`, `email`, `birthday`
+                        FROM `users`
+                        WHERE `user_id` = ?
+                ', array($user_id));
+    }
+
+
 }

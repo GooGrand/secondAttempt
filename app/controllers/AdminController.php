@@ -7,18 +7,14 @@ class AdminController extends Controller
     {
         $page = 0;
         $per_page = 2;
-        $cur_page = $this->getCurPage();
-        $num_pages = $this->getRows($per_page);
-        $users = $this->getPage($per_page);
+        $this->data['cur_page'] = $this->getCurPage();
+        $this->data['num_pages'] = $this->getRows($per_page);
+        $this->data['users'] = $this->getPage($per_page);
+        $this->data['page'] = $page;
 
-        $this->view->generate('admin_view.php', 'template_view.php', $cur_page, $num_pages, $page, $users);
+        $this->view->generate('admin_view.php', 'template_view.php', $this->data);
     }
 
-    public function logout()
-    {
-        session_destroy();
-        header('Location:/');
-    }
     public function getCurPage()
     {
         $cur_page = 1;
@@ -29,17 +25,63 @@ class AdminController extends Controller
 
     public function getPage($per_page)
     {
-        $db = new Database();
+        include_once 'SafeMySQL.php';
+        $model = new SafeMySQL();
         $cur_page = $this->getCurPage();
         $start = ($cur_page - 1) * $per_page;
-        $sql  = "SELECT SQL_CALC_FOUND_ROWS * FROM `users` LIMIT ?, OFFSET ?";
-        return $data = $db->queryAll($sql, array($start, $per_page));
+        $sql  = "SELECT SQL_CALC_FOUND_ROWS * FROM `users` LIMIT ?i, ?i";
+        return $data = $model->getAll($sql, $start, $per_page);
     }
     public function getRows($per_page)
     {
-        $rows = (integer) Database::queryOne("SELECT COUNT(*) FROM `users`");
-        #Проблема заключается в этой функции, потому что она выдает 0, из за которого нет цикла while
+        include_once 'SafeMySQL.php';
+        $model = new SafeMySQL();
+        $rows = $model->getOne("SELECT COUNT(*) FROM `users`");
         return $num_pages = ceil($rows / $per_page);
+
+    }
+
+    public function edit($params)
+    {
+        // HTML head
+        $this->head['title'] = 'User editor';
+        $userModel = new UserModel();
+        // Prepares an empty article
+        $user = array(
+            'user_id' => '',
+            'name' => '',
+            'surname' => '',
+            'email' => '',
+            'birthday' => '',
+        );
+        if ($_POST)
+        {
+            $keys = array('name', 'surname', 'email', 'birthday');
+            $user = array_intersect_key($_POST, array_flip($keys));
+            $userModel->saveUser($_POST['user_id'], $user);
+            header('Location:/admin/');
+        }
+        // Was the article URL entered with the intent to edit said article?
+        else if (!empty($params[0]))
+        {
+            $loadedUser = $userModel->getUser($params[0]);
+            if ($loadedUser)
+                $user = $loadedUser;
+            else
+                echo "User wasn't found";
+        }
+
+        $this->data['user'] = $user;
+        $this->view->generate('edit_user_view.php', 'template_view.php', $this->data);
+    }
+    public function remove($params)
+    {
+        $model = new UserModel();
+        $id = parse_url($params);
+        echo implode('', $id);
+        $model->removeUser($params);
+        echo 'there'.$params;
+//        header('Location:/admin/');
     }
 }
 
