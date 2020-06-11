@@ -60,7 +60,7 @@ class Model
     }
     public function getUser($user_id)
     {
-        return Db::queryOne('
+        return self::queryOne('
                         SELECT `user_id`, `name`, `surname`, `email`, `birthday`
                         FROM `users`
                         WHERE `user_id` = ?

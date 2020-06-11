@@ -62,9 +62,9 @@ class AdminController extends Controller
             header('Location:/admin/');
         }
         // Was the article URL entered with the intent to edit said article?
-        else if (!empty($params[0]))
+        else if (!empty($params))
         {
-            $loadedUser = $userModel->getUser($params[0]);
+            $loadedUser = $userModel->getUser($params);
             if ($loadedUser)
                 $user = $loadedUser;
             else
@@ -78,10 +78,8 @@ class AdminController extends Controller
     {
         $model = new UserModel();
         $id = parse_url($params);
-        echo implode('', $id);
         $model->removeUser($params);
-        echo 'there'.$params;
-//        header('Location:/admin/');
+        header('Location:/admin/');
     }
 }
 

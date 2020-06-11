@@ -7,6 +7,7 @@ class Routes
     {
         $controller_name = 'main';
         $action_name = 'index';
+        $params = '';
 
         $routes = explode('/', $_SERVER['REQUEST_URI']);
 
@@ -18,6 +19,10 @@ class Routes
         if ( !empty($routes[2]) )
         {
             $action_name = $routes[2];
+        }
+        if ( !empty($routes[3]) )
+        {
+            $params = $routes[3];
         }
 
         $model_name = $controller_name.'Model';
@@ -53,7 +58,7 @@ class Routes
         if(method_exists($controller, $action))
         {
             // вызываем действие контроллера
-            $controller->$action($params = '');
+            $controller->$action($params);
         }
         else
         {
