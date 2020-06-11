@@ -5,13 +5,12 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $page = 0;
-        $per_page = 2;
+        $page = 1;
+        $per_page = 5;
         $this->data['cur_page'] = $this->getCurPage();
         $this->data['num_pages'] = $this->getRows($per_page);
         $this->data['users'] = $this->getPage($per_page);
         $this->data['page'] = $page;
-
         $this->view->generate('admin_view.php', 'template_view.php', $this->data);
     }
 

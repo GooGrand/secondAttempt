@@ -20,10 +20,10 @@
 Страницы:
 <?=$num_pages ?>
 
-<?  while ($page++ < $num_pages): ?>
+<?  while ($page++ <= $num_pages): ?>
     <? if ($page == $cur_page): ?>
         <b><?=$page?></b>
     <? else: ?>
-        <a href="?page=<?=$page?>"><?=$page?></a>
+        <a href="admin?page=<?=$page++?>"><?=$page?></a>
     <? endif ?>
 <? endwhile ?>
