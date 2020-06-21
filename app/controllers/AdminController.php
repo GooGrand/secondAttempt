@@ -3,41 +3,37 @@
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index($params)
     {
         $page = 1;
-        $per_page = 5;
-        $this->data['cur_page'] = $this->getCurPage();
+        $per_page = 3;
+        $this->data['cur_page'] = $this->getCurPage($params);
         $this->data['num_pages'] = $this->getRows($per_page);
-        $this->data['users'] = $this->getPage($per_page);
+        $this->data['users'] = $this->getPage($per_page, $params);
         $this->data['page'] = $page;
         $this->view->generate('admin_view.php', 'template_view.php', $this->data);
     }
 
-    public function getCurPage()
+    public function getCurPage($getParams)
     {
-        $cur_page = 1;
-        if (isset($_GET['page']) && $_GET['page'] > 0)
-            $cur_page = $_GET['page'];
-        return $cur_page;
+        return $cur_page = !empty($getParams['page'])?$getParams['page']:1;
     }
 
-    public function getPage($per_page)
+    public function getPage($offset, $params)
     {
-        include_once 'SafeMySQL.php';
-        $model = new SafeMySQL();
-        $cur_page = $this->getCurPage();
-        $start = ($cur_page - 1) * $per_page;
-        $sql  = "SELECT SQL_CALC_FOUND_ROWS * FROM `users` LIMIT ?i, ?i";
-        return $data = $model->getAll($sql, $start, $per_page);
+        $model = new UserModel();
+        $cur_page = $this->getCurPage($params);
+        $limit = ($cur_page - 1) * $offset;
+        $sql  = "SELECT * 
+                  FROM users 
+                  LIMIT ?, ?";
+        return $data = $model->getPageForPg($sql, $limit, $offset);
     }
     public function getRows($per_page)
     {
-        include_once 'SafeMySQL.php';
-        $model = new SafeMySQL();
-        $rows = $model->getOne("SELECT COUNT(*) FROM `users`");
-        return $num_pages = ceil($rows / $per_page);
-
+        $model = new UserModel();
+        $rows = $model->queryOne("SELECT COUNT(*) FROM `users`");
+        return $num_pages = ceil(implode($rows) / $per_page);
     }
 
     public function edit($params)

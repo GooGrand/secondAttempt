@@ -9,7 +9,11 @@ class Routes
         $action_name = 'index';
         $params = '';
 
-        $routes = explode('/', $_SERVER['REQUEST_URI']);
+        $URIParts = explode('?',$_SERVER['REQUEST_URI']);
+        if (isset($URIParts[1]))
+            parse_str($URIParts[1], $params);
+        $routes = explode('/',$URIParts[0]);
+//        $routes = explode('/', $_SERVER['REQUEST_URI']);
 
         if ( !empty($routes[1]) )
         {
@@ -52,7 +56,7 @@ class Routes
         }
 
         // создаем контроллер
-        $controller = new $controller_name;
+        $controller = new $controller_name();
         $action = $action_name;
 
         if(method_exists($controller, $action))

@@ -5,11 +5,6 @@ class Model
 {
     private static $connection;
 
-    protected $conn;
-    protected $stats;
-    protected $emode;
-    protected $exname;
-
     function __construct()
     {
         $configSet = require 'config.php';
@@ -34,6 +29,14 @@ class Model
         if (!$result)
             return false;
         return $result[0];
+    }
+    public static function getPageForPg ($query, $limit, $offset)
+    {
+        $result = self::$connection->prepare($query);
+        $result->bindValue(1, $limit, PDO::PARAM_INT);
+        $result->bindValue(2, $offset, PDO::PARAM_INT);
+        $result->execute();
+        return $result->fetchAll();
     }
 
     // Executes a query and returns the number of affected rows
@@ -66,6 +69,5 @@ class Model
                         WHERE `user_id` = ?
                 ', array($user_id));
     }
-
 
 }

@@ -12,7 +12,7 @@ class Controller
         $this->view = new View();
     }
 
-    function index()
+    private function index($getParams = "")
     {
 
     }

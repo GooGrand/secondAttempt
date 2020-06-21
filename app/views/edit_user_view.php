@@ -1,5 +1,4 @@
 <h1>User editor</h1>
-<?php extract($data) ?>
 <form method="POST">
     <input type="hidden" name="user_id" value="<?= $user['user_id'] ?>" />
     Name<br />

@@ -1,5 +1,5 @@
 <p>Welcome to the Administration, you are logged in as <?= $_SESSION['user']['name']?></p>
-<?php extract($data); ?>
+<?php //extract($data); ?>
 <h1>Users list</h1>
 <table>
     <?php foreach ($users as $user) : ?>
@@ -20,10 +20,29 @@
 Страницы:
 <?=$num_pages ?>
 
-<?  while ($page++ <= $num_pages): ?>
-    <? if ($page == $cur_page): ?>
-        <b><?=$page?></b>
-    <? else: ?>
-        <a href="admin?page=<?=$page++?>"><?=$page?></a>
-    <? endif ?>
-<? endwhile ?>
+<? while($page <= $num_pages) {
+if ($page == $cur_page) {
+    echo $page;
+} else { ?>
+    <a href="admin?page=<?=$page?>"><?=$page?></a>
+<? }
+$page++;
+}?>
+
+<?//  while ($page++ <= $num_pages): ?>
+<!--    --><?// if ($page == $cur_page): ?>
+<!--        <b>--><?//=$page?><!--</b>-->
+<!--    --><?// else: ?>
+<!--        <a href="admin?page=--><?//=$page?><!--">--><?//=$page?><!--</a>-->
+<!--    --><?// endif ?>
+<?// endwhile ?>
+
+<?// for($page = 1; $page < $num_pages; $page++)
+//{
+//    if ($page == $cur_page)
+//    { ?>
+<!--        <b>--><?//=$page?><!--</b>-->
+<!--    --><?//} else { ?>
+<!--        <a href="admin?page=--><?//=$page?><!--">--><?//=$page?><!--</a>-->
+<!--    --><?//}
+//} ?>
