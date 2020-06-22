@@ -6,23 +6,28 @@ class AdminController extends Controller
     public function index($params)
     {
         $page = 0;
-        $per_page = 3;
-        $this->data['cur_page'] = $this->getCurPage($params);
+        $per_page = 5;
+        $this->data['cur_page'] = $this->getCurPage($params, $per_page);
         $this->data['num_pages'] = $this->getRows($per_page);
-        $this->data['users'] = $this->getPage($per_page, $params);
+        $this->data['users'] = $this->getPage($per_page, $params, $per_page);
         $this->data['page'] = $page;
         $this->view->generate('admin_view.php', 'template_view.php', $this->data);
     }
 
-    public function getCurPage($getParams)
+    public function getCurPage($getParams, $per_page)
     {
-        return $cur_page = !empty($getParams['page'])?$getParams['page']:1;
+        $cur_page = !empty($getParams['page'])?$getParams['page']:1;
+        if ($cur_page > $this->getRows($per_page) || $cur_page < 0)
+        {
+            $cur_page = 1;
+        }
+        return $cur_page;
     }
 
-    public function getPage($offset, $params)
+    public function getPage($offset, $params, $per_page)
     {
         $model = new UserModel();
-        $cur_page = $this->getCurPage($params);
+        $cur_page = $this->getCurPage($params, $per_page);
         $limit = ($cur_page - 1) * $offset;
         $sql  = "SELECT * 
                   FROM users 
