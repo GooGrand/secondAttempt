@@ -20,29 +20,14 @@
 Страницы:
 <?=$num_pages ?>
 
-<? while($page <= $num_pages) {
-if ($page == $cur_page) {
-    echo $page;
-} else { ?>
-    <a href="admin?page=<?=$page?>"><?=$page?></a>
-<? }
-$page++;
-}?>
+<?php  while ($page++ < $num_pages): ?>
+    <?php if ($page == $cur_page): ?>
+        <b><?=$page?></b>
+    <?php else: ?>
+        <a href="admin?page=<?=$page?>"><?=$page?></a>
+    <?php endif; ?>
+<?php endwhile; ?>
 
-<?//  while ($page++ <= $num_pages): ?>
-<!--    --><?// if ($page == $cur_page): ?>
-<!--        <b>--><?//=$page?><!--</b>-->
-<!--    --><?// else: ?>
-<!--        <a href="admin?page=--><?//=$page?><!--">--><?//=$page?><!--</a>-->
-<!--    --><?// endif ?>
-<?// endwhile ?>
 
-<?// for($page = 1; $page < $num_pages; $page++)
-//{
-//    if ($page == $cur_page)
-//    { ?>
-<!--        <b>--><?//=$page?><!--</b>-->
-<!--    --><?//} else { ?>
-<!--        <a href="admin?page=--><?//=$page?><!--">--><?//=$page?><!--</a>-->
-<!--    --><?//}
-//} ?>
+
+

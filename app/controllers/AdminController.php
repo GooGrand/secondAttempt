@@ -5,7 +5,7 @@ class AdminController extends Controller
 {
     public function index($params)
     {
-        $page = 1;
+        $page = 0;
         $per_page = 3;
         $this->data['cur_page'] = $this->getCurPage($params);
         $this->data['num_pages'] = $this->getRows($per_page);
