@@ -1,5 +1,4 @@
-<p>Welcome to the Administration, you are logged in as <?= $_SESSION['user']['name']?></p>
-<?php //extract($data); ?>
+<p>Welcome to the Administration, you are logged in as <?= $username ?></p>
 <h1>Users list</h1>
 <table>
     <?php foreach ($users as $user) : ?>

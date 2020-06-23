@@ -7,8 +7,7 @@ class Model
 
     function __construct()
     {
-        $configSet = require 'config.php';
-        self::$connection = Database::connect($configSet['host'], $configSet['dbName'], $configSet['user'], $configSet['pass']);
+        self::$connection = Database::connect(HOST, DBNAME, USER, PASS);
     }
     public static function queryOne($query, $params = array())
     {

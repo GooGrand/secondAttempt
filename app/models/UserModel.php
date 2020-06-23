@@ -86,4 +86,19 @@ class UserModel extends Model
             return null;
         }
     }
+    public function getPage($offset, $cur_page)
+    {
+//        $cur_page = $this->getCurPage($params, $per_page);
+        $limit = ($cur_page - 1) * $offset;
+        $sql  = "SELECT * 
+                  FROM users 
+                  LIMIT ?, ?";
+        return $data = $this->getPageForPg($sql, $limit, $offset);
+    }
+    public function getRows($per_page)
+    {
+        $model = new UserModel();
+        $rows = $model->queryOne("SELECT COUNT(*) FROM `users`");
+        return $num_pages = ceil(implode($rows) / $per_page);
+    }
 }

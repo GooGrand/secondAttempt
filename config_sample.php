@@ -1,9 +1,7 @@
 <?php
 
-return[
-    "host" => "",
-    "dbName" => "",
-    "charset" => "",
-    "user" => "",
-    "pass" => "",
-];
+define('HOST', '');
+define('DBNAME', '');
+define('CHARSET', '');
+define('USER', '');
+define('PASS', '');
